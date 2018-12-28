@@ -58,29 +58,21 @@ def type_foret(data):
 	somme_proba = 0
 
 	for arbre in data: 
-			
 		if(int(arbre.split(",")[54])==1): #si l'élément vaut 1 alors on le met dans classe 1 
 			#print("ok")
 			classe[1]+=1
-
 		elif(int(arbre.split(",")[54])==2): #si l'élément vaut 1 alors on le met dans classe 1 
 			classe[2]+=1
-
 		elif(int(arbre.split(",")[54])==3): #si l'élément vaut 1 alors on le met dans classe 1 
 			classe[3]+=1
-
 		elif(int(arbre.split(",")[54])==4): #si l'élément vaut 1 alors on le met dans classe 1 
 			classe[4]+=1
-
 		elif(int(arbre.split(",")[54])==5): #si l'élément vaut 1 alors on le met dans classe 1 
 			classe[5]+=1
-
 		elif(int(arbre.split(",")[54])==6): #si l'élément vaut 1 alors on le met dans classe 1 
 			classe[6]+=1
-
 		elif(int(arbre.split(",")[54])==7): #si l'élément vaut 1 alors on le met dans classe 1 
 			classe[7]+=1
-		
 		else: 
 			print("Pas de classe. Problème.")
 
@@ -129,8 +121,8 @@ def croisement_de_variables(data):
 	print("\n")
 	print("Analyse : Même analyse.")
 
+#histogramme
 def histo(data,type_element,show):
-	#histogramme
 	data.hist(column=type_element) #abscisses = Elevation, ordonnée = quantitée 	
 	if(type_element=="Elevation"):
 		print("Analyse : On peut voir que beaucoup d'arbres ont une élévation comprise entre 2850 et 3250 m environ.")
@@ -168,6 +160,7 @@ def histo(data,type_element,show):
 
 	plt.show()
 
+#boxplot 
 def boxplot(data,type_element,show):
 	data.boxplot(column=type_element)
 
@@ -191,6 +184,7 @@ def boxplot(data,type_element,show):
 		print("Analyse : En cours ... patience !")
 	if(type_element=="Horizontal_Distance_To_Fire_Points"): 
 		print("Analyse : En cours ... patience !")
+
 	if(show==True):
 		print("Analyse complète : ") 
 		print("En cours...patiente !")
