@@ -127,36 +127,75 @@ def croisement_de_variables(data):
 	print("Etude de l'impact de la présence (1) ou absence (0) du sol de type 2 (Vanet) sur la présence (1) ou l'absence (0) de zone sauvage de type Neota : ")
 	print(pandas.crosstab(data['Wilderness_Area.1'],data['Soil_Type.1'],normalize='index'))
 	print("\n")
-	print("Même analyse.")
+	print("Analyse : Même analyse.")
 
-def histo(data,type_element):
+def histo(data,type_element,show):
 	#histogramme
 	data.hist(column=type_element) #abscisses = Elevation, ordonnée = quantitée 	
 	if(type_element=="Elevation"):
-		print("On peut voir que beaucoup d'arbres ont une élévation comprise entre 2850 et 3250 metres environ.")
+		print("Analyse : On peut voir que beaucoup d'arbres ont une élévation comprise entre 2850 et 3250 m environ.")
 	if(type_element=="Aspect"): #faut comprendre ce que c'est ... pas trop compris je t'avoue 
-		print("On observe un aspect un peu hétérogène avec des valeurs plus importantes entre 0 et 150 ou encore 300 et 500 degrés Azimut.")
+		print("Analyse : On observe un aspect un peu hétérogène avec des valeurs plus importantes entre 0 et 150 ou encore 300 et 500 degrés Azimut.")
 	if(type_element=="Slope"): 
-		print("On constate que peu d'arbres sont fortement inclinés et que la plupart des arbres ont une inclinaison de 10 degrés.")
+		print("Analyse : On constate que peu d'arbres sont fortement inclinés et que la plupart des arbres ont une inclinaison de 10 degrés.")
 	if(type_element=="Horizontal_Distance_To_Hydrology"): 
-		print("en cours d'analyse")
+		print("Analyse : On remarque que la plupart des arbres ont une distance horizontale proche d'un point d'eau.")
 	if(type_element=="Vertical_Distance_To_Hydrology"): 
-		print("en cours d'analyse")
+		print("Analyse : On remarque que la plupart des arbres se trouvent à une distance verticale équivalente à 100 m d'un point d'eau.")
 	if(type_element=="Horizontal_Distance_To_Roadways"): 
-		print("en cours d'analyse")
+		print("Analyse : On peut voir que la distance horizontale à la route la plus paroche diverge fortement.")
 	if(type_element=="Hillshade_9am"): 
-		print("en cours d'analyse")
+		print("Analyse : On remarque que la valeur de l'ombrage à 9h est élevée pour la plupart des arbres.")
 	if(type_element=="Hillshade_Noon"): 
-		print("en cours d'analyse")
+		print("Analyse : On remarque que la valeur de l'ombrage à midi est élevée pour la plupart des arbres.")
 	if(type_element=="Hillshade_3pm"): 
-		print("en cours d'analyse")
+		print("Analyse : On remarque que la valeur de l'ombrage à 15h est élevée pour certains arbres et vaut entre 100 et 200.")
 	if(type_element=="Horizontal_Distance_To_Fire_Points"): 
-		print("en cours d'analyse")
+		print("Analyse : On remarque que la plupart des arbres ont une distance au départ du feu le plus proche comprise entre 800 et 2800 m.")
+
+	if(show==True):
+		print("Analyse complète : ") 
+		print("On peut voir que beaucoup d'arbres ont une élévation comprise entre 2850 et 3250 m environ.")
+		print("On observe un aspect un peu hétérogène avec des valeurs plus importantes entre 0 et 150 ou encore 300 et 500 degrés Azimut.")
+		print("On constate que peu d'arbres sont fortement inclinés et que la plupart des arbres ont une inclinaison de 10 degrés.")
+		print("On remarque que la plupart des arbres ont une distance horizontale proche d'un point d'eau.")
+		print("On remarque que la plupart des arbres se trouvent à une distance verticale équivalente à 100 m d'un point d'eau.")
+		print("On peut voir que la distance horizontale à la route la plus paroche diverge fortement.")
+		print("On remarque que la valeur de l'ombrage à 9h est élevée pour la plupart des arbres.")
+		print("On remarque que la valeur de l'ombrage à midi est élevée pour la plupart des arbres.")
+		print("On remarque que la valeur de l'ombrage à 15h est élevée pour certains arbres et vaut entre 100 et 200.")
+		print("On remarque que la plupart des arbres ont une distance au départ du feu le plus proche comprise entre 800 et 2800 m.")
 
 	plt.show()
 
-#def boxplot(data):
+def boxplot(data,type_element,show):
+	data.boxplot(column=type_element)
 
+	if(type_element=="Elevation"):
+		print("Analyse : En cours ... patience !")
+	if(type_element=="Aspect"): #faut comprendre ce que c'est ... pas trop compris je t'avoue 
+		print("Analyse : En cours ... patience !")
+	if(type_element=="Slope"): 
+		print("Analyse : En cours ... patience !")
+	if(type_element=="Horizontal_Distance_To_Hydrology"): 
+		print("Analyse : En cours ... patience !")
+	if(type_element=="Vertical_Distance_To_Hydrology"): 
+		print("Analyse : En cours ... patience !")
+	if(type_element=="Horizontal_Distance_To_Roadways"): 
+		print("Analyse : En cours ... patience !")
+	if(type_element=="Hillshade_9am"): 
+		print("Analyse : En cours ... patience !")
+	if(type_element=="Hillshade_Noon"): 
+		print("Analyse : En cours ... patience !")
+	if(type_element=="Hillshade_3pm"): 
+		print("Analyse : En cours ... patience !")
+	if(type_element=="Horizontal_Distance_To_Fire_Points"): 
+		print("Analyse : En cours ... patience !")
+	if(show==True):
+		print("Analyse complète : ") 
+		print("En cours...patiente !")
+
+	plt.show()
 
 ###################### Appel de fonctions #########################
 
@@ -186,6 +225,12 @@ affichage("croisement_de_variables")
 croisement_de_variables(data_pandas)
 
 affichage("histo") 
-type_element = 'Elevation'
-histo(data_pandas,type_element)
+type_element = 'Horizontal_Distance_To_Fire_Points'
+show = True
+histo(data_pandas,type_element,show)
+
+affichage("boxplot") 
+type_element='Aspect'
+show = False 
+boxplot(data_pandas,type_element,show)
 
