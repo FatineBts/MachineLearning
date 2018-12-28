@@ -113,12 +113,10 @@ def analyse_basique(data,element):
 def croisement_de_variables(data):
 	print("Etude de l'impact de la présence (1) ou absence (0) du sol de type 1 (Cathedral family) sur la présence (1) ou l'absence (0) de zone sauvage de type Rawah : ")
 	print(pandas.crosstab(data['Wilderness_Area'],data['Soil_Type'],normalize='index')) #utilisée pour des variables qualitatives 
-	print("\n")
 	print("Analyse : On remarque lorsqu'il y a une zone sauvage, la probabilité de présence d'un sol de type 1 est nulle. On remarque également que lorsqu'il y a ou pas un sol de type 1, nous avons presque autant de chance de retrouver une zone sauvage que de ne pas en trouver. On peut donc conclure que la présence de zone sauvage semble influencer la présence d'un sol de type 1 tandis que l'inverse est faux.\n")
  
 	print("Etude de l'impact de la présence (1) ou absence (0) du sol de type 2 (Vanet) sur la présence (1) ou l'absence (0) de zone sauvage de type Neota : ")
 	print(pandas.crosstab(data['Wilderness_Area.1'],data['Soil_Type.1'],normalize='index'))
-	print("\n")
 	print("Analyse : Même analyse.")
 
 #histogramme
@@ -165,29 +163,37 @@ def boxplot(data,type_element,show):
 	data.boxplot(column=type_element)
 
 	if(type_element=="Elevation"):
-		print("Analyse : En cours ... patience !")
+		print("Analyse Elevation : On identifie une médiane égale environ à 3000 et de nombreuses valeurs dépassant du boxplot.")
 	if(type_element=="Aspect"): #faut comprendre ce que c'est ... pas trop compris je t'avoue 
-		print("Analyse : En cours ... patience !")
+		print("Analyse Aspect : On remarque que 50 pour cent des arbres ont une orientation inférieure à 125 degrés. De plus l'écart inter-quartile est important ce qui traduit beaucoup de données. Etant donné que les moustaches sont longues, on comprend également que les valeurs sont étendues.")
 	if(type_element=="Slope"): 
-		print("Analyse : En cours ... patience !")
+		print("Analyse Slope : On voit que la médiane vaut environ 12 et que beaucoup de valeurs sont mal placées, il faudra donc épurer cette variable par la suite.")
 	if(type_element=="Horizontal_Distance_To_Hydrology"): 
-		print("Analyse : En cours ... patience !")
+		print("Analyse Horizontal_Distance_To_Roadways : On identifie une médiane égale environ à 20 et de nombreuses valeurs dépassant du boxplot.")
 	if(type_element=="Vertical_Distance_To_Hydrology"): 
-		print("Analyse : En cours ... patience !")
+		print("Analyse : On identifie une médiane égale environ à 20 et de nombreuses valeurs dépassant du boxplot.")
 	if(type_element=="Horizontal_Distance_To_Roadways"): 
-		print("Analyse : En cours ... patience !")
+		print("Analyse Horizontal_Distance_To_Roadways : On identifie une médiane égale environ à 20 et de nombreuses valeurs dépassant du boxplot.")
 	if(type_element=="Hillshade_9am"): 
-		print("Analyse : En cours ... patience !")
+		print("Analyse Hillshade_9am : On identifie une médiane égale environ à 2000 et quelques valeurs dépassant du boxplot.")
 	if(type_element=="Hillshade_Noon"): 
-		print("Analyse : En cours ... patience !")
+		print("Analyse Hillshade_Noon : On identifie une médiane égale environ à 220 et de nombreuses valeurs dépassant du boxplot.")
 	if(type_element=="Hillshade_3pm"): 
-		print("Analyse : En cours ... patience !")
+		print("Analyse Hillshade_3pm : On identifie une médiane égale environ à 180 et de nombreuses valeurs dépassant du boxplot.")
 	if(type_element=="Horizontal_Distance_To_Fire_Points"): 
-		print("Analyse : En cours ... patience !")
+		print("Analyse Horizontal_Distance_To_Fire_Points : On identifie une médiane égale environ à 1800 et de nombreuses valeurs dépassant du boxplot.")
 
 	if(show==True):
 		print("Analyse complète : ") 
-		print("En cours...patiente !")
+		print("Analyse Elevation : On identifie une médiane égale environ à 3000 et de nombreuses valeurs dépassant du boxplot.")
+		print("Analyse Aspect : On remarque que 50 pour cent des arbres ont une orientation inférieure à 125 degrés. De plus l'écart inter-quartile est important ce qui traduit beaucoup de données. Etant donné que les moustaches sont longues, on comprend également que les valeurs sont étendues.")
+		print("Analyse Slope : On voit que la médiane vaut environ 12 et que beaucoup de valeurs sont mal placées, il faudra donc épurer cette variable par la suite.")
+		print("Analyse Horizontal_Distance_To_Hydrology : On identifie une médiane égale environ à 200 et de nombreuses valeurs dépassant du boxplot.")
+		print("Analyse Horizontal_Distance_To_Roadways : On identifie une médiane égale environ à 20 et de nombreuses valeurs dépassant du boxplot.")
+		print("Analyse Hillshade_9am : On identifie une médiane égale environ à 2000 et quelques valeurs dépassant du boxplot.")
+		print("Analyse Hillshade_Noon : On identifie une médiane égale environ à 220 et de nombreuses valeurs dépassant du boxplot.")
+		print("Analyse Hillshade_3pm : On identifie une médiane égale environ à 180 et de nombreuses valeurs dépassant du boxplot.")
+		print("Analyse Horizontal_Distance_To_Fire_Points : On identifie une médiane égale environ à 1800 et de nombreuses valeurs dépassant du boxplot.")
 
 	plt.show()
 
@@ -198,33 +204,41 @@ fichier_modifie = "covtype_modifie.data"
 
 affichage("lecture_fichier")
 data = lecture_fichier(fichier)
+print("\n")
 
 affichage("moyenne")
 moyenne(data)
+print("\n")
 
 affichage("type_foret") 
 type_foret(data)
+print("\n")
 
 affichage("lecture_fichier_Numpy") 
 data_np = lecture_fichier_Numpy(fichier)
+print("\n")
 
 affichage("lecture_fichier_Pandas") 
 data_pandas = lecture_fichier_Pandas(fichier_modifie)
+print("\n")
 
 affichage("analyse_basique") 
 element = 0 #0 = Elevation, 1 = Aspect, 2 = Slope ....
 analyse_basique(data_pandas,element)
+print("\n")
 
 affichage("croisement_de_variables") 
 croisement_de_variables(data_pandas)
+print("\n")
 
-affichage("histo") 
+affichage("histogramme") 
 type_element = 'Horizontal_Distance_To_Fire_Points'
 show = True
 histo(data_pandas,type_element,show)
+print("\n")
 
 affichage("boxplot") 
-type_element='Aspect'
-show = False 
+type_element='Elevation'
+show = True 
 boxplot(data_pandas,type_element,show)
 
