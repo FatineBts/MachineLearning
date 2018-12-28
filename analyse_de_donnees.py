@@ -116,6 +116,48 @@ def analyse_basique(data,element):
 
 	print("Accès à la colonne Elevation  : ")
 	print(data['Elevation'].head()) #affichage que des premières valeurs 
+
+#croisement de variables et étude de l'influence de l'une sur l'autre 
+def croisement_de_variables(data):
+	print("Etude de l'impact de la présence (1) ou absence (0) du sol de type 1 (Cathedral family) sur la présence (1) ou l'absence (0) de zone sauvage de type Rawah : ")
+	print(pandas.crosstab(data['Wilderness_Area'],data['Soil_Type'],normalize='index')) #utilisée pour des variables qualitatives 
+	print("\n")
+	print("Analyse : On remarque lorsqu'il y a une zone sauvage, la probabilité de présence d'un sol de type 1 est nulle. On remarque également que lorsqu'il y a ou pas un sol de type 1, nous avons presque autant de chance de retrouver une zone sauvage que de ne pas en trouver. On peut donc conclure que la présence de zone sauvage semble influencer la présence d'un sol de type 1 tandis que l'inverse est faux.\n")
+ 
+	print("Etude de l'impact de la présence (1) ou absence (0) du sol de type 2 (Vanet) sur la présence (1) ou l'absence (0) de zone sauvage de type Neota : ")
+	print(pandas.crosstab(data['Wilderness_Area.1'],data['Soil_Type.1'],normalize='index'))
+	print("\n")
+	print("Même analyse.")
+
+def histo(data,type_element):
+	#histogramme
+	data.hist(column=type_element) #abscisses = Elevation, ordonnée = quantitée 	
+	if(type_element=="Elevation"):
+		print("On peut voir que beaucoup d'arbres ont une élévation comprise entre 2850 et 3250 metres environ.")
+	if(type_element=="Aspect"): #faut comprendre ce que c'est ... pas trop compris je t'avoue 
+		print("On observe un aspect un peu hétérogène avec des valeurs plus importantes entre 0 et 150 ou encore 300 et 500 degrés Azimut.")
+	if(type_element=="Slope"): 
+		print("On constate que peu d'arbres sont fortement inclinés et que la plupart des arbres ont une inclinaison de 10 degrés.")
+	if(type_element=="Horizontal_Distance_To_Hydrology"): 
+		print("en cours d'analyse")
+	if(type_element=="Vertical_Distance_To_Hydrology"): 
+		print("en cours d'analyse")
+	if(type_element=="Horizontal_Distance_To_Roadways"): 
+		print("en cours d'analyse")
+	if(type_element=="Hillshade_9am"): 
+		print("en cours d'analyse")
+	if(type_element=="Hillshade_Noon"): 
+		print("en cours d'analyse")
+	if(type_element=="Hillshade_3pm"): 
+		print("en cours d'analyse")
+	if(type_element=="Horizontal_Distance_To_Fire_Points"): 
+		print("en cours d'analyse")
+
+	plt.show()
+
+#def boxplot(data):
+
+
 ###################### Appel de fonctions #########################
 
 fichier = "covtype.data"
@@ -140,5 +182,10 @@ affichage("analyse_basique")
 element = 0 #0 = Elevation, 1 = Aspect, 2 = Slope ....
 analyse_basique(data_pandas,element)
 
+affichage("croisement_de_variables") 
+croisement_de_variables(data_pandas)
 
+affichage("histo") 
+type_element = 'Elevation'
+histo(data_pandas,type_element)
 
