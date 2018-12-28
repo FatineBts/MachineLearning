@@ -9,7 +9,6 @@ Langage de programmation utilisé : Python
 - Numpy
 - Panda 
 - Matplotlib 
-...
 
 Fichiers : 
 
