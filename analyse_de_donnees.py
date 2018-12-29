@@ -4,9 +4,6 @@
 import pandas
 import numpy as np
 import matplotlib.pyplot as plt
-#import sklearn
-#classe pour standardisation (ACP)
-from sklearn.preprocessing import StandardScaler
 
 #lecture du fichier 
 def lecture_fichier(fichier): 
@@ -51,13 +48,6 @@ def moyenne(data):
 def type_foret(data): 
 	classe = [0,0,0,0,0,0,0,0]
 	nombre_lignes = nombre_de_lignes(data)
-	proba1 = 0
-	proba2 = 0
-	proba3 = 0
-	proba4 = 0
-	proba5 = 0
-	proba6 = 0
-	proba7 = 0
 	somme_proba = 0
 
 	for arbre in data: 
@@ -78,17 +68,22 @@ def type_foret(data):
 			classe[7]+=1
 		else: 
 			print("Pas de classe. Problème.")
+	proba =np.zeros(7)
+	proba[0] = classe[1]/nombre_lignes
+	proba[1] = classe[2]/nombre_lignes
+	proba[2] = classe[3]/nombre_lignes
+	proba[3] = classe[4]/nombre_lignes
+	proba[4] = classe[5]/nombre_lignes
+	proba[5] = classe[6]/nombre_lignes
+	proba[6] = classe[7]/nombre_lignes
+	somme_proba = np.sum(proba)
 
-	proba1 = classe[1]/nombre_lignes
-	proba2 = classe[2]/nombre_lignes
-	proba3 = classe[3]/nombre_lignes
-	proba4 = classe[4]/nombre_lignes
-	proba5 = classe[5]/nombre_lignes
-	proba6 = classe[6]/nombre_lignes
-	proba7 = classe[7]/nombre_lignes
-	somme_proba = proba1 + proba2 + proba3 + proba4 + proba5 + proba6 + proba7
+	plt.bar(range(7),proba)
+	plt.xlabel('Type de couverture')
+	plt.ylabel('Probabilité')
+	plt.show()
 
-	print("Nombre de lignes : ",nombre_lignes, "\nExample : nombre d'arbres appartenant à la classe une : ",classe[1],"\nExample : probabilité d'appartenir à la classe une : ",proba1,"\nSomme des probas = 1 ? : ",somme_proba)
+	print("Nombre de lignes : ",nombre_lignes, "\nExample : nombre d'arbres appartenant à la classe 1 : ",classe[1],"\nExample : probabilité d'appartenir à la classe 1 : ",proba[0],"\nSomme des probas = 1 ? : ",somme_proba)
 
 #première analyse des données, utilisation de Pandas
 def analyse_basique(data,element):
