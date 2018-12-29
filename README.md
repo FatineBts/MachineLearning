@@ -9,12 +9,13 @@ Langage de programmation utilisé : Python
 - Numpy
 - Panda 
 - Matplotlib 
+- scikit-learn
 
 Fichiers : 
 
 - données : covtype.data ou covtype_modifie.data
 - dernière version de l'informations sur les données : covtype.info.txt
 - ancienne version de l'informations sur les données : old_covtype.info.txt
-- Fichier Python créé : analyse_de_donnees.py
+- Fichier Python créé : analyse_de_donnees.py, ACP.py
 
 

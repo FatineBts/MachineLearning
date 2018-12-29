@@ -4,6 +4,9 @@
 import pandas
 import numpy as np
 import matplotlib.pyplot as plt
+#import sklearn
+#classe pour standardisation (ACP)
+from sklearn.preprocessing import StandardScaler
 
 #lecture du fichier 
 def lecture_fichier(fichier): 
@@ -197,6 +200,8 @@ def boxplot(data,type_element,show):
 
 	plt.show()
 
+
+
 ###################### Appel de fonctions #########################
 
 fichier = "covtype.data"
@@ -241,4 +246,3 @@ affichage("boxplot")
 type_element='Elevation'
 show = True 
 boxplot(data_pandas,type_element,show)
-
