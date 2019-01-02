@@ -17,7 +17,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
-import seaborn as sns
+#import seaborn as sns
 
 ############################## Etape 1 : manipulation des données ##################################
 
@@ -51,7 +51,7 @@ class Manipulation_donnees:
 
 		nombre_lignes=Annexe.nombre_de_lignes(data)
 		somme = 0
-		moy= [0,0,0,0,0,0,0,0,0,0]
+		moy = [0,0,0,0,0,0,0,0,0,0]
 
 		for lignes in data:
 			for i in range(0,10): #pour les variables quantitatives
@@ -60,7 +60,7 @@ class Manipulation_donnees:
 		for i in range(0,10): 
 			moy[i]/=nombre_lignes #pour diviser par le nombre de lignes 
 	
-	print("La moyenne des éléments quantitatifs obtenue à la main est : ",moy)
+		print("La moyenne des éléments quantitatifs obtenue à la main est : ",moy)
 
 	#donne la probabilité d'appartenance à chaque classe de forêt 
 	def type_foret(data): 
@@ -481,9 +481,7 @@ Annexe.affichage("epuration_donnees")
 epuration_donnees(data_pandas)
 print("\n")
 
-
 ############################ Etape 4 : Méthodes d'apprentissage ##################################
-
 
 Annexe.affichage("pré-traitement")
 Apprentissage.methode_gauss(data_pandas)
