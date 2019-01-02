@@ -23,13 +23,12 @@ def lecture_fichier_Numpy(fichier):
 	return data
 
 def lecture_fichier_Pandas(fichier):
-	data = pandas.read_table("covtype_modifie.data",sep = ',',header = 0)
+	data = pandas.read_csv("covtype_modifie.data",delimiter=",",header = 0)
 	return data
 
 def nombre_de_lignes(data): 
-	nombre_lignes = 0
-	for lignes in data: #pour avoir le nombre de lignes 
-		nombre_lignes+=1
+	nombre_de_lignes = 0
+	nombre_lignes,colonne = data.shape
 	return nombre_lignes
 
 def affichage(nom):
@@ -44,7 +43,7 @@ def moyenne(data):
 
 	for lignes in data:
 		for i in range(0,10): #pour les variables quantitatives
-			moyenne[i]+=int(lignes.split(",")[i])
+			moyenne[i]+=int(lignes[i])
 	
 	for i in range(0,10): 
 		moyenne[i]/=nombre_lignes #pour diviser par le nombre de lignes 
@@ -58,20 +57,20 @@ def type_foret(data):
 	somme_proba = 0
 
 	for arbre in data: 
-		if(int(arbre.split(",")[54])==1): #si l'élément vaut 1 alors on le met dans classe 1 
+		if(int(arbre[54])==1): #si l'élément vaut 1 alors on le met dans classe 1 
 			#print("ok")
 			classe[1]+=1
-		elif(int(arbre.split(",")[54])==2): #si l'élément vaut 1 alors on le met dans classe 1 
+		elif(int(arbre[54])==2): #si l'élément vaut 1 alors on le met dans classe 1 
 			classe[2]+=1
-		elif(int(arbre.split(",")[54])==3): #si l'élément vaut 1 alors on le met dans classe 1 
+		elif(int(arbre[54])==3): #si l'élément vaut 1 alors on le met dans classe 1 
 			classe[3]+=1
-		elif(int(arbre.split(",")[54])==4): #si l'élément vaut 1 alors on le met dans classe 1 
+		elif(int(arbre[54])==4): #si l'élément vaut 1 alors on le met dans classe 1 
 			classe[4]+=1
-		elif(int(arbre.split(",")[54])==5): #si l'élément vaut 1 alors on le met dans classe 1 
+		elif(int(arbre[54])==5): #si l'élément vaut 1 alors on le met dans classe 1 
 			classe[5]+=1
-		elif(int(arbre.split(",")[54])==6): #si l'élément vaut 1 alors on le met dans classe 1 
+		elif(int(arbre[54])==6): #si l'élément vaut 1 alors on le met dans classe 1 
 			classe[6]+=1
-		elif(int(arbre.split(",")[54])==7): #si l'élément vaut 1 alors on le met dans classe 1 
+		elif(int(arbre[54])==7): #si l'élément vaut 1 alors on le met dans classe 1 
 			classe[7]+=1
 		else: 
 			print("Pas de classe. Problème.")
@@ -294,20 +293,56 @@ def ACP(data):
 	print(np.sum(cos2,axis=1))
 	print ("On a bien la somme des cos égale à 1.\n")
 
+	#max des cos
+	max_cos2 = [0,0,0]
+	mean_cos2 = [0,0,0]
+	for i in range(0,3):
+		mean_cos2[i] = np.mean(cos2[:,i])
+		max_cos2[i] = max(cos2[:,i])
+	print("Les contributions les plus importantes sont : ",max_cos2[0], max_cos2[1], max_cos2[2])
+
+	nombre_lignes = nombre_de_lignes(data)
+
+	for i in range(0,nombre_lignes): 
+		for j in range(0,3):
+			if(cos2[i,j]==max_cos2[j]): 
+				print("Axe numéro",j,"Arbre numéro :",i) #pour avoir la variable (arbre) correspondant au max_ctr
+
+	#probabilité d'éléments bien positionnés 
+	proba = [0,0,0]
+	for i in range(0,nombre_lignes): 
+		for j in range(0,3):
+			if(cos2[i,j]>mean_cos2[j]):
+				proba[j]+=1
+	
+	for j in range(0,3):
+		proba[j]/=nombre_lignes
+		print("Axe numéro",j,"Proba :",proba[j]) #pour avoir la variable (arbre) correspondant au max_ctr
+	print("Les moyennes sont (axe1,axe2,axe3) : ",mean_cos2[0], mean_cos2[1], mean_cos2[2])
+
+
+
 	#contributions aux axes
 	ctr = coord**2
 	for j in range(p):
 		ctr[:,j] = ctr[:,j]/(n*eigval[j])
-	print(pandas.DataFrame({'id':range(n),'CTR_1':ctr[:,0],'CTR_2':ctr[:,1],'CTR_2':ctr[:,2]}))
+	print(pandas.DataFrame({'id':range(n),'CTR_1':ctr[:,0],'CTR_2':ctr[:,1],'CTR_3':ctr[:,2]}))
 
-	nombre_lignes = nombre_de_lignes(data)
 
 	max_ctr = [0,0,0]
-	for i in range(0,2):
+	mean_ctr = [0,0,0]
+	for i in range(0,3):
 		max_ctr[i] = max(ctr[:,i])
+		mean_ctr[i] = np.mean(ctr[:,i])
 
 	print("Les contributions les plus importantes sont : ",max_ctr[0], max_ctr[1], max_ctr[2])
-	
+	print("Les moyennes des contributions sont : ",mean_ctr[0], mean_ctr[1], mean_ctr[2])
+
+	for i in range(0,nombre_lignes): 
+		for j in range(0,3):
+			if(ctr[i,j]==max_ctr[j]): 
+				print("Axe numéro",j,"Arbre numéro :",i) #pour avoir la variable (arbre) correspondant au max_ctr
+
 	#racine carrée des valeurs propres
 	sqrt_eigval = np.sqrt(eigval)
 	#corrélation des variables avec les axes
@@ -337,46 +372,44 @@ def ACP(data):
 fichier = "covtype.data"
 fichier_modifie = "covtype_modifie.data"
 
-#affichage("lecture_fichier en cours")
-#data = lecture_fichier(fichier)
-#print("lecture finie")
-#print("\n")
-
-#affichage("moyenne")
-#moyenne(data)
-#print("\n")
-
-#affichage("type_foret") 
-#type_foret(data)
-#print("\n")
-
-#affichage("lecture_fichier_Numpy") 
-#data_np = lecture_fichier_Numpy(fichier)
-#print("\n")
+affichage("lecture_fichier_Numpy") 
+data_np = lecture_fichier_Numpy(fichier)
+print("lecture finie")
+print("\n")
 
 affichage("lecture_fichier_Pandas") 
 data_pandas = lecture_fichier_Pandas(fichier_modifie)
+print("lecture finie")
 print("\n")
 
-#affichage("analyse_basique") 
-#element = 0 #0 = Elevation, 1 = Aspect, 2 = Slope ....
-#analyse_basique(data_pandas,element)
-#print("\n")
+affichage("moyenne")
+moyenne(data_np)
+print("\n")
 
-#affichage("croisement_de_variables") 
-#croisement_de_variables(data_pandas)
-#print("\n")
+affichage("type_foret") 
+type_foret(data_np)
+print("\n")
 
-#affichage("histogramme") 
-#type_element = 'Horizontal_Distance_To_Fire_Points'
-#show = True
-#histo(data_pandas,type_element,show)
-#print("\n")
+affichage("analyse_basique") 
+element = 0 #0 = Elevation, 1 = Aspect, 2 = Slope ....
+analyse_basique(data_pandas,element)
+print("\n")
 
-#affichage("boxplot") 
-#type_element='Elevation'
-#show = True 
-#boxplot(data_pandas,type_element,show)
+affichage("croisement_de_variables") 
+croisement_de_variables(data_pandas)
+print("\n")
+
+affichage("histogramme") 
+type_element = 'Horizontal_Distance_To_Fire_Points'
+show = True
+histo(data_pandas,type_element,show)
+print("\n")
+
+affichage("boxplot") 
+type_element='Elevation'
+show = True 
+boxplot(data_pandas,type_element,show)
+print("\n")
 
 affichage("ACP")
 ACP(data_pandas)
