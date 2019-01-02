@@ -385,9 +385,11 @@ class Analyse_de_donnees:
 class Pretraitement: 
 	#pour séparer les données selon la méthode du cross-validation
 	def separation_donnees(data):
-		digits = datasets.load_digits()
-		X=digits.data
-		y=digits.target
+		X=data[:,:53] # les données : toutes les lignes mais pas la dernière colonne des labels 
+		y=data[:,54] # les labels que l'on converve : les classes 
+		print("X : ",X)
+		print("y :",y)
+		print("\n")
 		data_test = train_test_split(X,y, random_state=0, train_size=0.5)
 		print("Séparation des données selon le cross_validation fait !")
 		print("data_train, data_test, target_train, target_test : ",data_test)
@@ -407,9 +409,10 @@ class Apprentissage:
 		clf = GaussianNB()
 		#apprentissage 
 		clf.fit(data_train, target_train)
+
 		#Exécution de la prédiction sur les données d'apprentissage
 		result = clf.predict(data_test)
-
+		print("Result : ",result)
 		# qualité de la prédiction
 		print("Qualité de la prédiction : ",accuracy_score(result, target_test))
 	
@@ -440,6 +443,7 @@ data_pandas = Lecture.lecture_fichier_Pandas(fichier_modifie)
 print("lecture finie")
 print("\n")
 
+"""
 Annexe.affichage("moyenne")
 Manipulation_donnees.moyenne(data_np)
 print("\n")
@@ -475,14 +479,19 @@ Annexe.affichage("ACP")
 Analyse_de_donnees.ACP(data_pandas)
 print("\n")
 
+"""
 ############################## Etape 3 : pré-traitements et construction des descripteurs ##################################
 
 Annexe.affichage("epuration_donnees")
-epuration_donnees(data_pandas)
+Pretraitement.separation_donnees(data_np)
+print("\n")
+
+Annexe.affichage("epuration_donnees")
+Pretraitement.epuration_donnees(data_pandas)
 print("\n")
 
 ############################ Etape 4 : Méthodes d'apprentissage ##################################
 
 Annexe.affichage("pré-traitement")
-Apprentissage.methode_gauss(data_pandas)
+Apprentissage.methode_gauss(data_np)
 print("\n")
