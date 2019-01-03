@@ -16,7 +16,10 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.cluster import KMeans
+
 from sklearn.tree import DecisionTreeClassifier 
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
 
 ############################## Etape 1 : manipulation des données ##################################
 
@@ -28,11 +31,11 @@ class Lecture:
 		return data
 
 	def lecture_fichier_Numpy(fichier): 
-		data = np.loadtxt("covtype.data",delimiter=",") #autre type d'utilisation des données 
+		data = np.loadtxt(fichier,delimiter=",") #autre type d'utilisation des données 
 		return data
 
 	def lecture_fichier_Pandas(fichier):
-		data = pandas.read_csv("covtype_modifie.data",delimiter=",",header = 0)
+		data = pandas.read_csv(fichier,delimiter=",",header = 0)
 		return data
 
 class Annexe: 
@@ -367,8 +370,8 @@ class Pretraitement:
 		return data_test
 
 	def epuration_donnees(data): 
-		print("à faire")
-
+		print("A faire") 
+		#return data
 
 ############################ Etape 4 : Méthodes d'apprentissage ##################################
 
@@ -376,22 +379,17 @@ class Apprentissage:
 	def Naive_Bayes(data):
 		print("Méthode de Gauss : Classification Naive Bayes, suppose que chaque classe est contruite à partir d'une distribution Gaussienne alignée. Avantage : très rapide.")
 		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
-
 		#classifieur 
 		classifier = GaussianNB()
 		#apprentissage 
 		classifier.fit(data_train, target_train)
-
 		#Exécution de la prédiction sur les données d'apprentissage
 		result = classifier.predict(data_test) #résultats obtenus
-
 		# qualité de la prédiction
 		print("Qualité de la prédiction : ",accuracy_score(result, target_test))
-	
 		#matrice de confusion
 		conf = confusion_matrix(target_test, result)
 		print("Matrice de confusion",conf)
-
 		#pour visualiser les valeurs bien représentées et celles qui ne le sont pas 
 		plt.matshow(conf, cmap='rainbow');
 		plt.show()
@@ -408,7 +406,11 @@ class Apprentissage:
 		plt.scatter(centers[:, 0], centers[:, 1],c='black', s=200, alpha=0.5);
 		plt.show()
 		print("Qualité de la prédiction : ",accuracy_score(y_kmeans, target_test))
-	
+
+	def reseau_de_neurones(data): 
+		print("A faire") 
+		 
+
 	def arbre_de_decision(data): 
 		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
 		#pour entrainer et prendre des decisions
@@ -417,8 +419,17 @@ class Apprentissage:
 		#pour faire des prédictions 
 		y_pred = classifier.predict(data_test)
 		print("Matrice de confusion :",confusion_matrix(target_test, y_pred))  
-		#print(classification_report(data_test, y_pred)) 
 		print("Qualité de la prédiction : ",accuracy_score(y_pred,target_test))
+
+	def random_forest(data):
+		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
+		classifier = RandomForestClassifier(n_estimators=30,criterion='entropy',max_features=None)
+		classifier.fit(data_train,target_train)
+		y_pred = classifier.predict(data_test)
+		print("Matrice de confusion :",confusion_matrix(target_test, y_pred))  
+		print("Qualité de la prédiction : ",accuracy_score(y_pred,target_test))
+		#cross = cross_val_score(classifier,data_train,target_train,cv=5)
+		#print("score :",cross)
 
 ################################################################## Appel de fonctions ##################################################################################
 
@@ -437,7 +448,7 @@ data_pandas = Lecture.lecture_fichier_Pandas(fichier_modifie)
 print("lecture finie")
 print("\n")
 
-
+"""
 Annexe.affichage("moyenne")
 Manipulation_donnees.moyenne(data_np)
 print("\n")
@@ -472,7 +483,7 @@ print("\n")
 Annexe.affichage("ACP")
 Analyse_de_donnees.ACP(data_pandas)
 print("\n")
-
+"""
 
 ############################## Etape 3 : pré-traitements et construction des descripteurs ##################################
 
@@ -480,7 +491,14 @@ Annexe.affichage("separation_donnees")
 Pretraitement.separation_donnees(data_np)
 print("\n")
 
+Annexe.affichage("epuration_donnees")
+data_epuree = Pretraitement.epuration_donnees(data_np)
+print("\n")
+
 ############################ Etape 4 : Méthodes d'apprentissage ##################################
+
+"""
+print("Résultats avant épuration :")
 
 Annexe.affichage("K_Means")
 Apprentissage.K_Means(data_np)
@@ -490,10 +508,31 @@ Annexe.affichage("Naive_Bayes")
 Apprentissage.Naive_Bayes(data_np)
 print("\n")
 
-Annexe.affichage("epuration_donnees")
-Apprentissage.epuration_donnees(data_pandas)
-print("\n")
-
 Annexe.affichage("arbre_de_decision")
 Apprentissage.arbre_de_decision(data_np)
 print("\n")
+
+
+Annexe.affichage("random_forest")
+Apprentissage.random_forest(data_np)
+print("\n")
+
+print("Résultats après épuration :")
+"""
+
+#A faire :) =  
+#1) fonction epuration des données = 
+# - rendre la disparité entre les classes moins importantes (genre trop d'éléments dans la classe 1 par rapport aux autres classes etc)
+# - fusionner vertical_distance_to_hydrology et horizontal_distance_to_hydrology, voir pour les autres variables  
+#2) lancement de fonctions = 
+#lancer les deux donctions qui suivent avec data_epuree, data retourné par la fonction epuration des données 
+
+"""
+Annexe.affichage("arbre_de_decision")
+Apprentissage.arbre_de_decision(data_epuree)
+print("\n")
+
+Annexe.affichage("random_forest")
+Apprentissage.random_forest(data_epuree)
+print("\n")
+"""
