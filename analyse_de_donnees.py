@@ -10,14 +10,13 @@ from sklearn import datasets
 from sklearn.preprocessing import StandardScaler
 # classe pour l'ACP
 from sklearn.decomposition import PCA
-# Cercle de corrélation
-#from mpl_toolkits.mplot3d import Axes3D
 #pour la cross validation
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
-#import seaborn as sns
+from sklearn.cluster import KMeans
+from sklearn.tree import DecisionTreeClassifier 
 
 ############################## Etape 1 : manipulation des données ##################################
 
@@ -108,7 +107,7 @@ class Manipulation_donnees:
 
 class Analyse_de_donnees: 
 	#première analyse des données, utilisation de Pandas
-	def analyse_basique(data,element):
+	def analyse_usuelle(data,element):
 		col = []
 		nombre_lignes,colonne = data.shape #donne le nombre de lignes et de colonnes 
 
@@ -268,34 +267,6 @@ class Analyse_de_donnees:
 		bs = bs[::-1]
 		print(pandas.DataFrame({'Val.Propre':eigval,'Seuils':bs}))
 
-		# Cercle de corrélation - Incompréhensible
-		'''
-		fig = plt.figure(1, figsize=(8, 6))
-		ax = Axes3D(fig, elev=-150, azim=110)
-		ax.scatter(Z[:, 0], Z[:, 1], Z[:, 2],cmap=plt.cm.Paired)
-		ax.set_title("ACP: trois premieres composantes")
-		ax.set_xlabel("Comp1")
-		ax.w_xaxis.set_ticklabels([])
-		ax.set_ylabel("Comp2")
-		ax.w_yaxis.set_ticklabels([])
-		ax.set_zlabel("Comp3")
-		ax.w_zaxis.set_ticklabels([])
-		plt.show()
-		#positionnement des individus dans le premier plan
-		fig, axes = plt.subplots(figsize=(12,12))
-		axes.set_xlim(-6,6) 
-		#même limites en abscisse
-		axes.set_ylim(-6,6) 
-		#et en ordonnée
-		#placement des étiquettes des observations
-		for i in range(n):
-			plt.annotate(i,(coord[i,0],coord[i,1]))
-		#ajouter les axes
-		plt.plot([-6,6],[0,0],color='silver',linestyle='-',linewidth=1)
-		plt.plot([0,0],[-6,6],color='silver',linestyle='-',linewidth=1)
-		#affichage
-		plt.show()'''
-
 		# Qualité de représentation
 		#contribution des individus dans l'inertie totale
 		di = np.sum(Z**2,axis=1)
@@ -387,12 +358,12 @@ class Pretraitement:
 	def separation_donnees(data):
 		X=data[:,:53] # les données : toutes les lignes mais pas la dernière colonne des labels 
 		y=data[:,54] # les labels que l'on converve : les classes 
-		print("X : ",X)
-		print("y :",y)
-		print("\n")
-		data_test = train_test_split(X,y, random_state=0, train_size=0.5)
+		#print("X : ",X)
+		#print("y :",y)
+		#print("\n")
+		data_test = train_test_split(X,y, random_state=0, train_size=0.2) #80% apprentissage et 20% test 
 		print("Séparation des données selon le cross_validation fait !")
-		print("data_train, data_test, target_train, target_test : ",data_test)
+		#print("data_train, data_test, target_train, target_test : ",data_test)
 		return data_test
 
 	def epuration_donnees(data): 
@@ -402,17 +373,18 @@ class Pretraitement:
 ############################ Etape 4 : Méthodes d'apprentissage ##################################
 
 class Apprentissage: 
-	def methode_gauss(data):
+	def Naive_Bayes(data):
+		print("Méthode de Gauss : Classification Naive Bayes, suppose que chaque classe est contruite à partir d'une distribution Gaussienne alignée. Avantage : très rapide.")
 		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
 
 		#classifieur 
-		clf = GaussianNB()
+		classifier = GaussianNB()
 		#apprentissage 
-		clf.fit(data_train, target_train)
+		classifier.fit(data_train, target_train)
 
 		#Exécution de la prédiction sur les données d'apprentissage
-		result = clf.predict(data_test)
-		print("Result : ",result)
+		result = classifier.predict(data_test) #résultats obtenus
+
 		# qualité de la prédiction
 		print("Qualité de la prédiction : ",accuracy_score(result, target_test))
 	
@@ -423,8 +395,30 @@ class Apprentissage:
 		#pour visualiser les valeurs bien représentées et celles qui ne le sont pas 
 		plt.matshow(conf, cmap='rainbow');
 		plt.show()
-		print("Matrice de confusion : analyse en cours")
+		print("Matrice de confusion : En abscisse les données et en ordonnées la prédiction. La matrice de confusion indique que seules certaines classes sont bien prédites (la classe 1). Les données sont donc à découper de manière à améliorer les résultats.")
 
+	def K_Means(data): 
+		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
+		kmeans = KMeans(n_clusters=7)
+		kmeans.fit(data_train)
+		y_kmeans = kmeans.predict(data_test)
+
+		plt.scatter(data[:, 0], data[:, 1],c=y_kmeans, s=50, cmap='viridis')
+		centers = kmeans.cluster_centers_
+		plt.scatter(centers[:, 0], centers[:, 1],c='black', s=200, alpha=0.5);
+		plt.show()
+		print("Qualité de la prédiction : ",accuracy_score(y_kmeans, target_test))
+	
+	def arbre_de_decision(data): 
+		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
+		#pour entrainer et prendre des decisions
+		classifier = DecisionTreeClassifier()
+		classifier.fit(data_train, target_train)
+		#pour faire des prédictions 
+		y_pred = classifier.predict(data_test)
+		print("Matrice de confusion :",confusion_matrix(target_test, y_pred))  
+		#print(classification_report(data_test, y_pred)) 
+		print("Qualité de la prédiction : ",accuracy_score(y_pred,target_test))
 
 ################################################################## Appel de fonctions ##################################################################################
 
@@ -443,7 +437,7 @@ data_pandas = Lecture.lecture_fichier_Pandas(fichier_modifie)
 print("lecture finie")
 print("\n")
 
-"""
+
 Annexe.affichage("moyenne")
 Manipulation_donnees.moyenne(data_np)
 print("\n")
@@ -454,9 +448,9 @@ print("\n")
 
 ############################## Etape 2 : analyse des données ##################################
 
-Annexe.affichage("analyse_basique") 
+Annexe.affichage("analyse_usuelle") 
 element = 0 #0 = Elevation, 1 = Aspect, 2 = Slope ....
-Analyse_de_donnees.analyse_basique(data_pandas,element)
+Analyse_de_donnees.analyse_usuelle(data_pandas,element)
 print("\n")
 
 Annexe.affichage("croisement_de_variables") 
@@ -479,19 +473,27 @@ Annexe.affichage("ACP")
 Analyse_de_donnees.ACP(data_pandas)
 print("\n")
 
-"""
+
 ############################## Etape 3 : pré-traitements et construction des descripteurs ##################################
 
-Annexe.affichage("epuration_donnees")
+Annexe.affichage("separation_donnees")
 Pretraitement.separation_donnees(data_np)
-print("\n")
-
-Annexe.affichage("epuration_donnees")
-Pretraitement.epuration_donnees(data_pandas)
 print("\n")
 
 ############################ Etape 4 : Méthodes d'apprentissage ##################################
 
-Annexe.affichage("pré-traitement")
-Apprentissage.methode_gauss(data_np)
+Annexe.affichage("K_Means")
+Apprentissage.K_Means(data_np)
+print("\n")
+
+Annexe.affichage("Naive_Bayes")
+Apprentissage.Naive_Bayes(data_np)
+print("\n")
+
+Annexe.affichage("epuration_donnees")
+Apprentissage.epuration_donnees(data_pandas)
+print("\n")
+
+Annexe.affichage("arbre_de_decision")
+Apprentissage.arbre_de_decision(data_np)
 print("\n")
