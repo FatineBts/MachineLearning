@@ -355,6 +355,12 @@ class Analyse_de_donnees:
 		#affichage
 		plt.show()
 
+	def correlation_variables(data): 
+		X=data[:,:10]
+		y=data[:,54] 
+		df = pandas.DataFrame(X)
+		df.head()
+		print("Corrélation :", df.corr())
 
 ############################## Etape 3 : pré-traitements et construction des descripteurs ##################################
 
@@ -379,8 +385,16 @@ class Pretraitement:
 		plt.matshow(conf, cmap='rainbow');
 		plt.show()
 
-	def epuration_donnees(data): 
-		print("A faire") 
+	def epuration_donnees(data):
+		#creation d'un dictionnaire DataFrame
+		df = pandas.DataFrame(data)
+		df.sort_values(by=['Elevation'])	#marche pas, je pense que j'ai loupé des arguments dans le dictionnaire DataFrame
+		print(df)
+
+		#Etape 2 : Une nouvelle mesure de la distance
+
+		#Etape 3 : Regroupement des variables Hillshade
+
 		#return data
 
 ############################ Etape 4 : Méthodes d'apprentissage ##################################
@@ -403,7 +417,7 @@ class Apprentissage:
 		classifier = neighbors.KNeighborsClassifier(n_neighbors=3)
 		classifier.fit(data_train, target_train)
 		target_pred = classifier.predict(data_test)
-		Pretraitement.matrice_de_confusion(target_test,target_pred)
+		#Pretraitement.matrice_de_confusion(target_test,target_pred)
 		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 
 	def perceptron_multi_couches(data): 
@@ -411,7 +425,6 @@ class Apprentissage:
 		classifier = MLPClassifier(hidden_layer_sizes=(100,100,100), max_iter=500, alpha=0.0001,solver='sgd', verbose=10,  random_state=21,tol=0.000000001) 
 		classifier.fit(data_train, target_train)
 		target_pred = classifier.predict(data_test)
-		Pretraitement.matrice_de_confusion(target_test,target_pred)
 		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 
 	def arbre_de_decision(data): 
@@ -422,7 +435,7 @@ class Apprentissage:
 		#pour faire des prédictions 
 		target_pred = classifier.predict(data_test)
 		conf = confusion_matrix(target_test, target_pred)
-		Pretraitement.matrice_de_confusion(target_test,target_pred)
+		#Pretraitement.matrice_de_confusion(target_test,target_pred)
 		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 
 	def random_forest(data):
@@ -430,7 +443,7 @@ class Apprentissage:
 		classifier = RandomForestClassifier(n_estimators=30,criterion='entropy',max_features=None)
 		classifier.fit(data_train,target_train)
 		target_pred = classifier.predict(data_test)
-		Pretraitement.matrice_de_confusion(target_test,target_pred)
+		#Pretraitement.matrice_de_confusion(target_test,target_pred)
 		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 
 ################################################################## Appel de fonctions ##################################################################################
@@ -485,6 +498,11 @@ print("\n")
 Annexe.affichage("ACP")
 Analyse_de_donnees.ACP(data_pandas)
 print("\n")
+
+Annexe.affichage("correlation_variables")
+Analyse_de_donnees.correlation_variables(data_np)
+print("\n")
+
 """
 
 ############################## Etape 3 : pré-traitements et construction des descripteurs ##################################
@@ -494,11 +512,12 @@ Pretraitement.separation_donnees(data_np)
 print("\n")
 
 Annexe.affichage("epuration_donnees")
-data_epuree = Pretraitement.epuration_donnees(data_np)
+data_epuree = Pretraitement.epuration_donnees(data_pandas)
 print("\n")
 
 ############################ Etape 4 : Méthodes d'apprentissage ##################################
 
+"""
 print("Résultats avant épuration :")
 
 Annexe.affichage("Naive_Bayes")
@@ -522,7 +541,7 @@ Apprentissage.random_forest(data_np)
 print("\n")
 
 print("Résultats après épuration :")
-
+"""
 
 #A faire :) =  
 #1) fonction epuration des données = 
