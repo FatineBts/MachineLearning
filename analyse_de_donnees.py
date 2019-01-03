@@ -21,6 +21,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.neural_network import MLPClassifier
+from sklearn import neighbors
 
 ############################## Etape 1 : manipulation des données ##################################
 
@@ -365,10 +366,18 @@ class Pretraitement:
 		#print("X : ",X)
 		#print("y :",y)
 		#print("\n")
-		data_test = train_test_split(X,y, random_state=0, train_size=0.2) #80% apprentissage et 20% test 
+		data_test = train_test_split(X,y, random_state=0, train_size=0.8) #80% apprentissage et 20% test 
 		print("Séparation des données selon le cross_validation fait !")
 		#print("data_train, data_test, target_train, target_test : ",data_test)
 		return data_test
+
+	def matrice_de_confusion(target_test,target_pred):
+		#matrice de confusion
+		conf = confusion_matrix(target_test, target_pred)
+		print("Matrice de confusion",conf)
+		#pour visualiser les valeurs bien représentées et celles qui ne le sont pas 
+		plt.matshow(conf, cmap='rainbow');
+		plt.show()
 
 	def epuration_donnees(data): 
 		print("A faire") 
@@ -385,26 +394,24 @@ class Apprentissage:
 		#apprentissage 
 		classifier.fit(data_train, target_train)
 		#Exécution de la prédiction sur les données d'apprentissage
-		y_pred = classifier.predict(data_test) #résultats obtenus
+		target_pred = classifier.predict(data_test) #résultats obtenus
 		# qualité de la prédiction
-		print("Qualité de la prédiction : ",accuracy_score(y_pred, target_test))
-		#matrice de confusion
-		conf = confusion_matrix(target_test, y_pred)
-		print("Matrice de confusion",conf)
-		#pour visualiser les valeurs bien représentées et celles qui ne le sont pas 
-		plt.matshow(conf, cmap='rainbow');
-		plt.show()
-		print("Matrice de confusion : En abscisse les données et en ordonnées la prédiction. La matrice de confusion indique que seules certaines classes sont bien prédites (la classe 1). Les données sont donc à découper de manière à améliorer les résultats.")
+		print("Qualité de la prédiction : ",accuracy_score(target_pred, target_test))
+	
+	def KNN(data):
+		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
+		classifier = neighbors.KNeighborsClassifier(n_neighbors=3)
+		classifier.fit(data_train, target_train)
+		target_pred = classifier.predict(data_test)
+		Pretraitement.matrice_de_confusion(target_test,target_pred)
+		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 
 	def perceptron_multi_couches(data): 
 		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
 		classifier = MLPClassifier(hidden_layer_sizes=(100,100,100), max_iter=500, alpha=0.0001,solver='sgd', verbose=10,  random_state=21,tol=0.000000001) 
 		classifier.fit(data_train, target_train)
 		target_pred = classifier.predict(data_test)
-		conf = confusion_matrix(target_test, target_pred)
-		print("Matrice de confusion :",conf)  
-		sns.heatmap(conf, center=True)
-		plt.show()
+		Pretraitement.matrice_de_confusion(target_test,target_pred)
 		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 
 	def arbre_de_decision(data): 
@@ -414,7 +421,8 @@ class Apprentissage:
 		classifier.fit(data_train, target_train)
 		#pour faire des prédictions 
 		target_pred = classifier.predict(data_test)
-		print("Matrice de confusion :",confusion_matrix(target_test, target_pred))  
+		conf = confusion_matrix(target_test, target_pred)
+		Pretraitement.matrice_de_confusion(target_test,target_pred)
 		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 
 	def random_forest(data):
@@ -422,10 +430,8 @@ class Apprentissage:
 		classifier = RandomForestClassifier(n_estimators=30,criterion='entropy',max_features=None)
 		classifier.fit(data_train,target_train)
 		target_pred = classifier.predict(data_test)
-		print("Matrice de confusion :",confusion_matrix(target_test, target_pred))  
+		Pretraitement.matrice_de_confusion(target_test,target_pred)
 		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
-		#cross = cross_val_score(classifier,data_train,target_train,cv=5)
-		#print("score :",cross)
 
 ################################################################## Appel de fonctions ##################################################################################
 
@@ -493,11 +499,14 @@ print("\n")
 
 ############################ Etape 4 : Méthodes d'apprentissage ##################################
 
-
 print("Résultats avant épuration :")
 
 Annexe.affichage("Naive_Bayes")
 Apprentissage.Naive_Bayes(data_np)
+print("\n")
+
+Annexe.affichage("KNN")
+Apprentissage.KNN(data_np)
 print("\n")
 
 Annexe.affichage("perceptron_multi_couches")
