@@ -20,6 +20,7 @@ from sklearn.cluster import KMeans
 from sklearn.tree import DecisionTreeClassifier 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
+from sklearn.neural_network import MLPClassifier
 
 ############################## Etape 1 : manipulation des données ##################################
 
@@ -384,32 +385,27 @@ class Apprentissage:
 		#apprentissage 
 		classifier.fit(data_train, target_train)
 		#Exécution de la prédiction sur les données d'apprentissage
-		result = classifier.predict(data_test) #résultats obtenus
+		y_pred = classifier.predict(data_test) #résultats obtenus
 		# qualité de la prédiction
-		print("Qualité de la prédiction : ",accuracy_score(result, target_test))
+		print("Qualité de la prédiction : ",accuracy_score(y_pred, target_test))
 		#matrice de confusion
-		conf = confusion_matrix(target_test, result)
+		conf = confusion_matrix(target_test, y_pred)
 		print("Matrice de confusion",conf)
 		#pour visualiser les valeurs bien représentées et celles qui ne le sont pas 
 		plt.matshow(conf, cmap='rainbow');
 		plt.show()
 		print("Matrice de confusion : En abscisse les données et en ordonnées la prédiction. La matrice de confusion indique que seules certaines classes sont bien prédites (la classe 1). Les données sont donc à découper de manière à améliorer les résultats.")
 
-	def K_Means(data): 
+	def perceptron_multi_couches(data): 
 		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
-		kmeans = KMeans(n_clusters=7)
-		kmeans.fit(data_train)
-		y_kmeans = kmeans.predict(data_test)
-
-		plt.scatter(data[:, 0], data[:, 1],c=y_kmeans, s=50, cmap='viridis')
-		centers = kmeans.cluster_centers_
-		plt.scatter(centers[:, 0], centers[:, 1],c='black', s=200, alpha=0.5);
+		classifier = MLPClassifier(hidden_layer_sizes=(100,100,100), max_iter=500, alpha=0.0001,solver='sgd', verbose=10,  random_state=21,tol=0.000000001) 
+		classifier.fit(data_train, target_train)
+		target_pred = classifier.predict(data_test)
+		conf = confusion_matrix(target_test, target_pred)
+		print("Matrice de confusion :",conf)  
+		sns.heatmap(conf, center=True)
 		plt.show()
-		print("Qualité de la prédiction : ",accuracy_score(y_kmeans, target_test))
-
-	def reseau_de_neurones(data): 
-		print("A faire") 
-		 
+		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 
 	def arbre_de_decision(data): 
 		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
@@ -417,17 +413,17 @@ class Apprentissage:
 		classifier = DecisionTreeClassifier()
 		classifier.fit(data_train, target_train)
 		#pour faire des prédictions 
-		y_pred = classifier.predict(data_test)
-		print("Matrice de confusion :",confusion_matrix(target_test, y_pred))  
-		print("Qualité de la prédiction : ",accuracy_score(y_pred,target_test))
+		target_pred = classifier.predict(data_test)
+		print("Matrice de confusion :",confusion_matrix(target_test, target_pred))  
+		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 
 	def random_forest(data):
 		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
 		classifier = RandomForestClassifier(n_estimators=30,criterion='entropy',max_features=None)
 		classifier.fit(data_train,target_train)
-		y_pred = classifier.predict(data_test)
-		print("Matrice de confusion :",confusion_matrix(target_test, y_pred))  
-		print("Qualité de la prédiction : ",accuracy_score(y_pred,target_test))
+		target_pred = classifier.predict(data_test)
+		print("Matrice de confusion :",confusion_matrix(target_test, target_pred))  
+		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 		#cross = cross_val_score(classifier,data_train,target_train,cv=5)
 		#print("score :",cross)
 
@@ -497,28 +493,27 @@ print("\n")
 
 ############################ Etape 4 : Méthodes d'apprentissage ##################################
 
-"""
-print("Résultats avant épuration :")
 
-Annexe.affichage("K_Means")
-Apprentissage.K_Means(data_np)
-print("\n")
+print("Résultats avant épuration :")
 
 Annexe.affichage("Naive_Bayes")
 Apprentissage.Naive_Bayes(data_np)
+print("\n")
+
+Annexe.affichage("perceptron_multi_couches")
+Apprentissage.perceptron_multi_couches(data_np)
 print("\n")
 
 Annexe.affichage("arbre_de_decision")
 Apprentissage.arbre_de_decision(data_np)
 print("\n")
 
-
 Annexe.affichage("random_forest")
 Apprentissage.random_forest(data_np)
 print("\n")
 
 print("Résultats après épuration :")
-"""
+
 
 #A faire :) =  
 #1) fonction epuration des données = 
