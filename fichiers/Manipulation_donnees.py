@@ -1,7 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from fichiers.Annexe import *
+##################################################################
+#Polytech Sorbonne - année 2018/2019
+#Réalisé par : Fatine Bentires Alj et Alexia Zounias-Sirabella
+#Cours d'apprentissage statistique de Patrick Gallinari
+##################################################################
+
+from .Annexe import *
+from .Lecture import *
+import pandas
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -9,8 +17,8 @@ import matplotlib.pyplot as plt
 
 class Manipulation_donnees:
 	#calcule les valeurs moyennes pour les données quantitatives uniquement
-	def moyenne(data):
-
+	def moyenne():
+		data = Lecture.lecture_fichier_Numpy()
 		nombre_lignes=Annexe.nombre_de_lignes(data)
 		somme = 0
 		moy = [0,0,0,0,0,0,0,0,0,0]
@@ -32,7 +40,6 @@ class Manipulation_donnees:
 
 		for arbre in data: 
 			if(int(arbre[54])==1): #si l'élément vaut 1 alors on le met dans classe 1 
-				#print("ok")
 				classe[1]+=1
 			elif(int(arbre[54])==2): #si l'élément vaut 1 alors on le met dans classe 1 
 				classe[2]+=1
@@ -48,7 +55,7 @@ class Manipulation_donnees:
 				classe[7]+=1
 			else: 
 				print("Pas de classe. Problème.")
-		proba =np.zeros(7)
+		proba = np.zeros(7)
 		proba[0] = classe[1]/nombre_lignes
 		proba[1] = classe[2]/nombre_lignes
 		proba[2] = classe[3]/nombre_lignes

@@ -1,43 +1,41 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import fichiers.Manipulation_donnees as Manipulation_donnees
-import fichiers.Annexe as Annexe 
-import fichiers.Lecture as Lecture 
-import fichiers.Analyse_de_donnees as Analyse_de_donnees
-import fichiers.Pretraitement as Pretraitement
-import fichiers.Apprentissage as Apprentissage
+##################################################################
+#Polytech Sorbonne - année 2018/2019
+#Réalisé par : Fatine Bentires Alj et Alexia Zounias-Sirabella
+#Cours d'apprentissage statistique de Patrick Gallinari
+##################################################################
 
+from fichiers.Manipulation_donnees import *
+from fichiers.Annexe import *
+from fichiers.Lecture import *
+from fichiers.Analyse_de_donnees import *
+from fichiers.Pretraitement import *
+from fichiers.Apprentissage import *
 
 ################################################################## Appel de fonctions ##################################################################################
 
 ############################## Etape 1 : manipulation des données ##################################
 
-fichier = "covtype.data"
-fichier_modifie = "covtype_modifie.data"
-
-Annexe.affichage("lecture_fichier_Numpy") 
-data_np = Lecture.lecture_fichier_Numpy(fichier)
+Annexe.affichage("lecture_fichier_Pandas") 
+data_pandas = Lecture.lecture_fichier_Pandas_modifie()
 print("lecture finie")
 print("\n")
 
-Annexe.affichage("lecture_fichier_Pandas") 
-data_pandas = Lecture.lecture_fichier_Pandas(fichier_modifie)
-print("lecture finie")
+Annexe.affichage("moyenne")
+Manipulation_donnees.moyenne()
 print("\n")
 
 """
-Annexe.affichage("moyenne")
-Manipulation_donnees.moyenne(data_np)
-print("\n")
-
 Annexe.affichage("type_foret") 
 Manipulation_donnees.type_foret(data_np)
 print("\n")
 """
 
-############################## Etape 2 : analyse des données ##################################
 """
+############################## Etape 2 : analyse des données ##################################
+
 Annexe.affichage("analyse_usuelle") 
 element = 0 #0 = Elevation, 1 = Aspect, 2 = Slope ....
 Analyse_de_donnees.analyse_usuelle(data_pandas,element)
@@ -66,8 +64,6 @@ print("\n")
 Annexe.affichage("correlation_variables")
 Analyse_de_donnees.correlation_variables(data_np)
 print("\n")
-
-"""
 
 ############################## Etape 3 : pré-traitements et construction des descripteurs ##################################
 
@@ -115,7 +111,7 @@ print("\n")
 Annexe.affichage("random_forest")
 Apprentissage.random_forest(data_train,data_test,target_train,target_test)
 print("\n")
-
+"""
 
 #A faire :) =  
 #1) fonction epuration des données = 
