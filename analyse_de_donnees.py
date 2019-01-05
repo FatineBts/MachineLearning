@@ -372,10 +372,10 @@ class Pretraitement:
 		#print("X : ",X)
 		#print("y :",y)
 		#print("\n")
-		data_test = train_test_split(X,y, random_state=0, train_size=0.8) #80% apprentissage et 20% test 
+		data_x = train_test_split(X,y, random_state=0, train_size=0.8) #80% apprentissage et 20% test 
 		print("Séparation des données selon le cross_validation fait !")
 		#print("data_train, data_test, target_train, target_test : ",data_test)
-		return data_test
+		return data_x
 
 	def matrice_de_confusion(target_test,target_pred):
 		#matrice de confusion
@@ -386,23 +386,57 @@ class Pretraitement:
 		plt.show()
 
 	def epuration_donnees(data):
-		#creation d'un dictionnaire DataFrame
-		df = pandas.DataFrame(data)
-		df.sort_values(by=['Elevation'])	#marche pas, je pense que j'ai loupé des arguments dans le dictionnaire DataFrame
-		print(df)
+		#prémices 
+		y = data.Soil_Type
+		X=data.drop('Soil_Type',axis=1)
+		data_train, data_test, target_train, target_test = train_test_split(X,y, random_state=0, train_size=0.8)
 
+		#Etape 1 : équilibrage entre les classes 
+		#à faire ...
+		
 		#Etape 2 : Une nouvelle mesure de la distance
+		#fusion de Vertical_Distance_To_Hydrology et Horizontal_Distance_To_Hydrology : distance euclidienne 
+		
+		data_train['Vertical_Distance_To_Hydrology'] = np.sqrt(np.square(data_train['Vertical_Distance_To_Hydrology'] + np.square(data_train['Horizontal_Distance_To_Hydrology'])))
+		data_test['Vertical_Distance_To_Hydrology'] = np.sqrt(np.square(data_test['Vertical_Distance_To_Hydrology'] + np.square(data_test['Horizontal_Distance_To_Hydrology'])))
+		#on renomme la fusion des deux en VH_Distance_To_Hydrology
+		data_train.rename({'Vertical_Distance_To_Hydrology':'VH_Distance_To_Hydrology'}, axis = 1, inplace = True)
+		data_test.rename({'Vertical_Distance_To_Hydrology':'VH_Distance_To_Hydrology'}, axis = 1, inplace = True)
+		#on supprime la colonne 
+		data_train.drop(["Horizontal_Distance_To_Hydrology"],axis = 1, inplace = True)		 
+		data_test.drop(["Horizontal_Distance_To_Hydrology"],axis = 1, inplace = True)
+		
 
 		#Etape 3 : Regroupement des variables Hillshade
 
-		#return data
+		#fusion de Hillshade_9am et Hillshade_3pm : addition
+		data_train['Hillshade_9am'] = data_train['Hillshade_9am'] + data_train['Hillshade_3pm']
+		data_train.rename({'Hillshade_9am':'Hillshade_fusion'}, axis = 1, inplace = True)
+		data_train.drop(["Hillshade_3pm"], axis = 1, inplace = True)
+		#print(data["Hillshade_fusion"])
+
+		data_test['Hillshade_9am'] = data_test['Hillshade_9am'] + data_test['Hillshade_3pm']
+		data_test.rename({'Hillshade_9am':'Hillshade_fusion'}, axis = 1, inplace = True)
+		data_test.drop(["Hillshade_3pm"], axis = 1, inplace = True)
+		
+
+		"""
+		data_train[4] = np.sqrt(np.square(data_train[3] + np.square(data_train[4])))
+		data_test[4] = np.sqrt(np.square(data_test[3] + np.square(data_test[4])))
+		#on renomme la fusion des deux en VH_Distance_To_Hydrology
+		data_train.rename({'Vertical_Distance_To_Hydrology':'VH_Distance_To_Hydrology'}, axis = 1, inplace = True)
+		data_test.rename({'Vertical_Distance_To_Hydrology':'VH_Distance_To_Hydrology'}, axis = 1, inplace = True)
+		#on supprime la colonne 
+		data_train.drop([3],axis = 1, inplace = True)		 
+		data_test.drop([3],axis = 1, inplace = True)
+		"""
+		return data_train, data_test, target_train, target_test #on revoit data au final 
 
 ############################ Etape 4 : Méthodes d'apprentissage ##################################
 
 class Apprentissage: 
 	def Naive_Bayes(data):
 		print("Méthode de Gauss : Classification Naive Bayes, suppose que chaque classe est contruite à partir d'une distribution Gaussienne alignée. Avantage : très rapide.")
-		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
 		#classifieur 
 		classifier = GaussianNB()
 		#apprentissage 
@@ -412,23 +446,20 @@ class Apprentissage:
 		# qualité de la prédiction
 		print("Qualité de la prédiction : ",accuracy_score(target_pred, target_test))
 	
-	def KNN(data):
-		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
+	def KNN(data,data_train, data_test, target_train, target_test):
 		classifier = neighbors.KNeighborsClassifier(n_neighbors=3)
 		classifier.fit(data_train, target_train)
 		target_pred = classifier.predict(data_test)
 		#Pretraitement.matrice_de_confusion(target_test,target_pred)
 		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 
-	def perceptron_multi_couches(data): 
-		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
+	def perceptron_multi_couches(data,data_train, data_test, target_train, target_test): 
 		classifier = MLPClassifier(hidden_layer_sizes=(100,100,100), max_iter=500, alpha=0.0001,solver='sgd', verbose=10,  random_state=21,tol=0.000000001) 
 		classifier.fit(data_train, target_train)
 		target_pred = classifier.predict(data_test)
 		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 
-	def arbre_de_decision(data): 
-		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
+	def arbre_de_decision(data,data_train, data_test, target_train, target_test): 
 		#pour entrainer et prendre des decisions
 		classifier = DecisionTreeClassifier()
 		classifier.fit(data_train, target_train)
@@ -438,8 +469,7 @@ class Apprentissage:
 		#Pretraitement.matrice_de_confusion(target_test,target_pred)
 		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 
-	def random_forest(data):
-		data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data)
+	def random_forest(data,data_train, data_test, target_train, target_test):
 		classifier = RandomForestClassifier(n_estimators=30,criterion='entropy',max_features=None)
 		classifier.fit(data_train,target_train)
 		target_pred = classifier.predict(data_test)
@@ -462,7 +492,6 @@ Annexe.affichage("lecture_fichier_Pandas")
 data_pandas = Lecture.lecture_fichier_Pandas(fichier_modifie)
 print("lecture finie")
 print("\n")
-
 """
 Annexe.affichage("moyenne")
 Manipulation_donnees.moyenne(data_np)
@@ -512,35 +541,50 @@ Pretraitement.separation_donnees(data_np)
 print("\n")
 
 Annexe.affichage("epuration_donnees")
-data_epuree = Pretraitement.epuration_donnees(data_pandas)
+data_train,data_test,target_train,target_test = Pretraitement.epuration_donnees(data_pandas)
 print("\n")
+
 
 ############################ Etape 4 : Méthodes d'apprentissage ##################################
 
-"""
+
 print("Résultats avant épuration :")
 
+data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data_np)
+
+"""
 Annexe.affichage("Naive_Bayes")
-Apprentissage.Naive_Bayes(data_np)
+Apprentissage.Naive_Bayes(data_np,data_train, data_test, target_train, target_test)
 print("\n")
 
 Annexe.affichage("KNN")
-Apprentissage.KNN(data_np)
+Apprentissage.KNN(data_np,data_train, data_test, target_train, target_test)
 print("\n")
 
 Annexe.affichage("perceptron_multi_couches")
-Apprentissage.perceptron_multi_couches(data_np)
+Apprentissage.perceptron_multi_couches(data_np,data_train, data_test, target_train, target_test)
 print("\n")
 
 Annexe.affichage("arbre_de_decision")
-Apprentissage.arbre_de_decision(data_np)
+Apprentissage.arbre_de_decision(data_np,data_train, data_test, target_train, target_test)
 print("\n")
 
 Annexe.affichage("random_forest")
-Apprentissage.random_forest(data_np)
+Apprentissage.random_forest(data_np,data_train, data_test, target_train, target_test)
 print("\n")
+"""
+
 
 print("Résultats après épuration :")
+
+Annexe.affichage("arbre_de_decision")
+Apprentissage.arbre_de_decision(data_pandas,data_train,data_test,target_train,target_test)
+print("\n")
+
+"""
+Annexe.affichage("random_forest")
+Apprentissage.random_forest(data_epuree)
+print("\n")
 """
 
 #A faire :) =  
@@ -549,13 +593,3 @@ print("Résultats après épuration :")
 # - fusionner vertical_distance_to_hydrology et horizontal_distance_to_hydrology, voir pour les autres variables  
 #2) lancement de fonctions = 
 #lancer les deux donctions qui suivent avec data_epuree, data retourné par la fonction epuration des données 
-
-"""
-Annexe.affichage("arbre_de_decision")
-Apprentissage.arbre_de_decision(data_epuree)
-print("\n")
-
-Annexe.affichage("random_forest")
-Apprentissage.random_forest(data_epuree)
-print("\n")
-"""
