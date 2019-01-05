@@ -7,15 +7,17 @@ Langage de programmation utilisé : Python 3
 
 /!\ Pour lancer le fichier il vous faut télécharger certaines bibliothèques : 
 - Numpy
+- Scikit-learn
 - Panda 
 - Matplotlib 
-- Scikit-learn
+
 
 Fichiers : 
 
 - données : covtype.data ou covtype_modifie.data
 - dernière version de l'informations sur les données : covtype.info.txt
 - ancienne version de l'informations sur les données : old_covtype.info.txt
-- Fichier Python à lancer : analyse_de_donnees.py
+- Classes de fonctions Python : dossier fichiers
+- Fichier Python à lancer : main.py
 
 
