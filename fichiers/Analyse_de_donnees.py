@@ -265,8 +265,8 @@ class Analyse_de_donnees:
 		plt.show()
 
 	def correlation_variables(data): 
-		X=data[:,:10]
-		y=data[:,54] 
+		X=data.values[:,:10]
+		y=data.values[:,54] 
 		df = pandas.DataFrame(X)
 		df.head()
-		print("Corrélation :", df.corr())
+		print("Corrélation :\n", df.corr())

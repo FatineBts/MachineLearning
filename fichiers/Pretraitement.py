@@ -21,7 +21,6 @@ class Pretraitement:
 		X=data.drop('Cover_Type',axis=1) #classes 
 		data_train, data_test, target_train, target_test = train_test_split(X,y, random_state=0, train_size=0.8) #80% apprentissage et 20% test 
 		print("Séparation des données faite !")
-
 		return data_train, data_test, target_train, target_test
 
 	def matrice_de_confusion(target_test,target_pred):

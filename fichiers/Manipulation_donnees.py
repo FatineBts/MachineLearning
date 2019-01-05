@@ -17,13 +17,12 @@ import matplotlib.pyplot as plt
 
 class Manipulation_donnees:
 	#calcule les valeurs moyennes pour les données quantitatives uniquement
-	def moyenne():
-		data = Lecture.lecture_fichier_Numpy()
+	def moyenne(data):
 		nombre_lignes=Annexe.nombre_de_lignes(data)
 		somme = 0
 		moy = [0,0,0,0,0,0,0,0,0,0]
 
-		for lignes in data:
+		for lignes in data.values:
 			for i in range(0,10): #pour les variables quantitatives
 				moy[i]+=int(lignes[i])
 	
@@ -38,7 +37,7 @@ class Manipulation_donnees:
 		nombre_lignes = Annexe.nombre_de_lignes(data)
 		somme_proba = 0
 
-		for arbre in data: 
+		for arbre in data.values: 
 			if(int(arbre[54])==1): #si l'élément vaut 1 alors on le met dans classe 1 
 				classe[1]+=1
 			elif(int(arbre[54])==2): #si l'élément vaut 1 alors on le met dans classe 1 

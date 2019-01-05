@@ -13,15 +13,6 @@ import numpy as np
 ############################## Etape 1 : manipulation des données ##################################
 
 class Lecture: 
-	#lecture des fichiers
-	def lecture_fichier_Numpy(): 
-		data = np.loadtxt("covtype.data",delimiter=",") #autre type d'utilisation des données 
-		return data
-
-	def lecture_fichier_Pandas_base(): 
-		data = pandas.read_csv("covtype.data",delimiter=",",header = 0)
-		return data
-	
-	def lecture_fichier_Pandas_modifie():
+	def lecture_fichier_Pandas():
 		data = pandas.read_csv("covtype_modifie.data",delimiter=",",header = 0)
 		return data

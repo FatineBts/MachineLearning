@@ -19,21 +19,20 @@ from fichiers.Apprentissage import *
 ############################## Etape 1 : manipulation des données ##################################
 
 Annexe.affichage("lecture_fichier_Pandas") 
-data_pandas = Lecture.lecture_fichier_Pandas_modifie()
+data_pandas = Lecture.lecture_fichier_Pandas()
 print("lecture finie")
 print("\n")
 
 Annexe.affichage("moyenne")
-Manipulation_donnees.moyenne()
+Manipulation_donnees.moyenne(data_pandas)
 print("\n")
 
-"""
 Annexe.affichage("type_foret") 
-Manipulation_donnees.type_foret(data_np)
+Manipulation_donnees.type_foret(data_pandas)
 print("\n")
-"""
 
-"""
+
+
 ############################## Etape 2 : analyse des données ##################################
 
 Annexe.affichage("analyse_usuelle") 
@@ -62,7 +61,7 @@ Analyse_de_donnees.ACP(data_pandas)
 print("\n")
 
 Annexe.affichage("correlation_variables")
-Analyse_de_donnees.correlation_variables(data_np)
+Analyse_de_donnees.correlation_variables(data_pandas)
 print("\n")
 
 ############################## Etape 3 : pré-traitements et construction des descripteurs ##################################
@@ -111,7 +110,6 @@ print("\n")
 Annexe.affichage("random_forest")
 Apprentissage.random_forest(data_train,data_test,target_train,target_test)
 print("\n")
-"""
 
 #A faire :) =  
 #1) fonction epuration des données = 
