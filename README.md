@@ -14,7 +14,7 @@ Langage de programmation utilisé : Python 3
 
 Fichiers : 
 
-- données : covtype.data (bien prendre cette base de données car nous avons ajouté les labels en haut)
+- données : covtype.data (/!\ bien prendre cette base de données car nous avons ajouté les labels en haut)
 - dernière version de l'informations sur les données : covtype.info.txt
 - ancienne version de l'informations sur les données : old_covtype.info.txt
 - Classes de fonctions Python : dossier fichiers
