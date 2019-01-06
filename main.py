@@ -103,6 +103,18 @@ Annexe.affichage("epuration_donnees")
 data_train,data_test,target_train,target_test = Pretraitement.epuration_donnees(data_pandas)
 print("\n")
 
+Annexe.affichage("Naive_Bayes")
+Apprentissage.Naive_Bayes(data_train, data_test, target_train, target_test)
+print("\n")
+
+Annexe.affichage("KNN")
+Apprentissage.KNN(data_train, data_test, target_train, target_test)
+print("\n")
+
+Annexe.affichage("perceptron_multi_couches")
+Apprentissage.perceptron_multi_couches(data_train, data_test, target_train, target_test)
+print("\n")
+
 Annexe.affichage("arbre_de_decision")
 Apprentissage.arbre_de_decision(data_train,data_test,target_train,target_test)
 print("\n")
