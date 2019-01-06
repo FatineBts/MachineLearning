@@ -23,6 +23,7 @@ data_pandas = Lecture.lecture_fichier_Pandas()
 print("lecture finie")
 print("\n")
 
+"""
 Annexe.affichage("moyenne")
 Manipulation_donnees.moyenne(data_pandas)
 print("\n")
@@ -30,8 +31,6 @@ print("\n")
 Annexe.affichage("type_foret") 
 Manipulation_donnees.type_foret(data_pandas)
 print("\n")
-
-
 
 ############################## Etape 2 : analyse des données ##################################
 
@@ -65,11 +64,12 @@ Analyse_de_donnees.correlation_variables(data_pandas)
 print("\n")
 
 ############################## Etape 3 : pré-traitements et construction des descripteurs ##################################
-
+"""
 Annexe.affichage("separation_donnees")
 data_train, data_test, target_train, target_test = Pretraitement.separation_donnees(data_pandas)
 print("\n")
 
+"""
 ############################ Etape 4 : Méthodes d'apprentissage ##################################
 
 ############################ Résultat avant épuration ############################
@@ -86,21 +86,21 @@ print("\n")
 Annexe.affichage("perceptron_multi_couches")
 Apprentissage.perceptron_multi_couches(data_train, data_test, target_train, target_test)
 print("\n")
-
+"""
 Annexe.affichage("arbre_de_decision")
 Apprentissage.arbre_de_decision(data_train, data_test, target_train, target_test)
 print("\n")
 
+"""
 Annexe.affichage("random_forest")
 Apprentissage.random_forest(data_train, data_test, target_train, target_test)
 print("\n")
-
+"""
 ############################ Résultat après épuration ############################
 
 print("Résultats après épuration :")
 Annexe.affichage("epuration_donnees")
 data_train,data_test,target_train,target_test = Pretraitement.epuration_donnees(data_pandas)
-print("data_train",data_train)
 print("\n")
 
 Annexe.affichage("arbre_de_decision")
