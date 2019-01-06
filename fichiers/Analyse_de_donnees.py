@@ -25,17 +25,13 @@ class Analyse_de_donnees:
 		col = []
 		nombre_lignes,colonne = data.shape #donne le nombre de lignes et de colonnes 
 
-		#for i in range(0,nombre_lignes):
-		#	col.append(data[i][element]) #remplit le vecteur colonne avec tous les éléments d'une colonne
-
 		#affiche les premières lignes d'un jeu de données 
 		print("Premières lignes du jeu de données : ")
 		print(data.head())
 		
 		print("Description des données :")
 		print(data.describe(include="all"))
-		#plt.boxplot(data)
-		#plt.show()
+
 		print("Enumération des colonnes : ")
 		print(data.columns)
 

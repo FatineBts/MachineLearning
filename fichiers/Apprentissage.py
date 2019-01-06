@@ -7,6 +7,7 @@
 #Cours d'apprentissage statistique de Patrick Gallinari
 ##################################################################
 
+from .Pretraitement import *
 #pour la cross validation
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
@@ -25,7 +26,6 @@ from sklearn import neighbors
 
 class Apprentissage: 
 	def Naive_Bayes(data_train, data_test, target_train, target_test):
-		print("Méthode de Gauss : Classification Naive Bayes, suppose que chaque classe est contruite à partir d'une distribution Gaussienne alignée. Avantage : très rapide.")
 		#classifieur 
 		classifier = GaussianNB()
 		#apprentissage 
@@ -36,10 +36,10 @@ class Apprentissage:
 		print("Qualité de la prédiction : ",accuracy_score(target_pred, target_test))
 	
 	def KNN(data_train, data_test, target_train, target_test):
-		classifier = neighbors.KNeighborsClassifier(n_neighbors=3)
+		classifier = neighbors.KNeighborsClassifier(n_neighbors=1) 
 		classifier.fit(data_train, target_train)
 		target_pred = classifier.predict(data_test)
-		#Pretraitement.matrice_de_confusion(target_test,target_pred)
+		Pretraitement.matrice_de_confusion(target_test,target_pred)
 		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 
 	def perceptron_multi_couches(data_train, data_test, target_train, target_test): 
@@ -50,17 +50,16 @@ class Apprentissage:
 
 	def arbre_de_decision(data_train, data_test, target_train, target_test): 
 		#pour entrainer et prendre des decisions
-		classifier = DecisionTreeClassifier()
+		classifier = DecisionTreeClassifier(criterion='entropy')
 		classifier.fit(data_train, target_train)
 		#pour faire des prédictions 
 		target_pred = classifier.predict(data_test)
-		conf = confusion_matrix(target_test, target_pred)
-		#Pretraitement.matrice_de_confusion(target_test,target_pred)
+		Pretraitement.matrice_de_confusion(target_test,target_pred)
 		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
 
 	def random_forest(data_train, data_test, target_train, target_test):
-		classifier = RandomForestClassifier(n_estimators=30,criterion='entropy',max_features=None)
+		classifier = RandomForestClassifier(n_estimators=100,criterion='entropy')
 		classifier.fit(data_train,target_train)
 		target_pred = classifier.predict(data_test)
-		#Pretraitement.matrice_de_confusion(target_test,target_pred)
+		Pretraitement.matrice_de_confusion(target_test,target_pred)
 		print("Qualité de la prédiction : ", accuracy_score(target_test, target_pred))
