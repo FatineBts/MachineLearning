@@ -29,7 +29,7 @@ class Manipulation_donnees:
 		for i in range(0,10): 
 			moy[i]/=nombre_lignes #pour diviser par le nombre de lignes 
 	
-		print("La moyenne des éléments quantitatifs obtenue à la main est : ",moy)
+		print("La moyenne des éléments quantitatifs obtenue à la main est : ", moy)
 
 	#donne la probabilité d'appartenance à chaque classe de forêt 
 	def type_foret(data): 
@@ -40,20 +40,21 @@ class Manipulation_donnees:
 		for arbre in data.values: 
 			if(int(arbre[54])==1): #si l'élément vaut 1 alors on le met dans classe 1 
 				classe[1]+=1
-			elif(int(arbre[54])==2): #si l'élément vaut 1 alors on le met dans classe 1 
+			elif(int(arbre[54])==2): #si l'élément vaut 2 alors on le met dans classe 2 
 				classe[2]+=1
-			elif(int(arbre[54])==3): #si l'élément vaut 1 alors on le met dans classe 1 
+			elif(int(arbre[54])==3): #si l'élément vaut 3 alors on le met dans classe 3 
 				classe[3]+=1
-			elif(int(arbre[54])==4): #si l'élément vaut 1 alors on le met dans classe 1 
+			elif(int(arbre[54])==4): #si l'élément vaut 4 alors on le met dans classe 4 
 				classe[4]+=1
-			elif(int(arbre[54])==5): #si l'élément vaut 1 alors on le met dans classe 1 
+			elif(int(arbre[54])==5): #si l'élément vaut 5 alors on le met dans classe 5 
 				classe[5]+=1
-			elif(int(arbre[54])==6): #si l'élément vaut 1 alors on le met dans classe 1 
+			elif(int(arbre[54])==6): #si l'élément vaut 6 alors on le met dans classe 6 
 				classe[6]+=1
-			elif(int(arbre[54])==7): #si l'élément vaut 1 alors on le met dans classe 1 
+			elif(int(arbre[54])==7): #si l'élément vaut 7 alors on le met dans classe 7 
 				classe[7]+=1
 			else: 
 				print("Pas de classe. Problème.")
+
 		proba = np.zeros(7)
 		proba[0] = classe[1]/nombre_lignes
 		proba[1] = classe[2]/nombre_lignes

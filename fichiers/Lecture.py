@@ -14,5 +14,5 @@ import numpy as np
 
 class Lecture: 
 	def lecture_fichier_Pandas():
-		data = pandas.read_csv("covtype_modifie.data",delimiter=",",header = 0)
+		data = pandas.read_csv("covtype.data",delimiter=",",header = 0)
 		return data
