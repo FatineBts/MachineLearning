@@ -86,6 +86,10 @@ if(r=='3' or r=='4'):
 	Apprentissage.Naive_Bayes(data_train, data_test, target_train, target_test)
 	print("\n")
 
+	Annexe.affichage("regression_logistique")
+	Apprentissage.regression_logistique(data_train, data_test, target_train, target_test)
+	print("\n")
+
 	Annexe.affichage("KNN")
 	Apprentissage.KNN(data_train, data_test, target_train, target_test)
 	print("\n")
@@ -101,3 +105,4 @@ if(r=='3' or r=='4'):
 	Annexe.affichage("random_forest")
 	Apprentissage.random_forest(data_train,data_test,target_train,target_test)
 	print("\n")
+

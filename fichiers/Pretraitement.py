@@ -13,6 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import cross_validate #cross validation
 
 ############################## Etape 3 : pré-traitements et construction des descripteurs ##################################
 
@@ -60,8 +61,8 @@ class Pretraitement:
 		min_classe = min(classe[1],classe[2],classe[3],classe[4],classe[5],classe[6],classe[7])
 		ligne = 2*min_classe
 		nombre_l,_ = data.shape
+		print("Nombre de données après traitement : ",nombre_l)
 
-		"""
 		print("classe 1",classe[1]) #nombre d'éléments dans chaque classe 
 		print("classe 2",classe[2])
 		print("classe 3",classe[3])
@@ -69,7 +70,7 @@ class Pretraitement:
 		print("classe 5",classe[5])
 		print("classe 6",classe[6])
 		print("classe 7",classe[7])
-		"""
+
 		nombre_l,_ = data.shape
 
 		#b) trier selon la classe à laquelle la ligne appartient 
@@ -104,7 +105,8 @@ class Pretraitement:
 				print("Pas de classe. Problème.")
 
 		nombre_lignes,_ = data.shape
-		"""
+		print("Nombre de données après traitement : ",nombre_lignes)
+
 		print("classe 1",classe[1]) #nombre d'éléments dans chaque classe 
 		print("classe 2",classe[2])
 		print("classe 3",classe[3])
@@ -112,7 +114,6 @@ class Pretraitement:
 		print("classe 5",classe[5])
 		print("classe 6",classe[6])
 		print("classe 7",classe[7])
-		"""
 
 		somme_proba = 0
 		proba = np.zeros(7)
@@ -124,7 +125,7 @@ class Pretraitement:
 		proba[5] = classe[6]/nombre_lignes
 		proba[6] = classe[7]/nombre_lignes
 		somme_proba = np.sum(proba)
-		print("Nombre de lignes : ",nombre_lignes, "\nExample : nombre d'arbres appartenant à la classe 1 : ",classe[1],"\nExample : probabilité d'appartenir à la classe 1 : ",proba[3],"\nProba équivalente : 1/7. Somme des probas = 1 ? : ",somme_proba)
+		print("\nExample : nombre d'arbres appartenant à la classe 1 : ",classe[1],"\nExample : probabilité d'appartenir à la classe 1 : ",proba[3],"\nProba équivalente : 1/7. Somme des probas = 1 ? : ",somme_proba)
 		
 		#d) completer pour avoir plus de données 
 		#A faire

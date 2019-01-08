@@ -96,7 +96,7 @@ class Analyse_de_donnees:
 		if(type_element=="Aspect"): #faut comprendre ce que c'est ... pas trop compris je t'avoue 
 			print("Analyse Aspect : On remarque que 50 pour cent des arbres ont une orientation inférieure à 125 degrés. De plus l'écart inter-quartile est important ce qui traduit beaucoup de données. Etant donné que les moustaches sont longues, on comprend également que les valeurs sont étendues.")
 		if(type_element=="Slope"): 
-			print("Analyse Slope : On voit que la médiane vaut environ 12 et que beaucoup de valeurs sont mal placées, il faudra donc épurer cette variable par la suite.")
+			print("Analyse Slope : On voit que la médiane vaut environ 12.")
 		if(type_element=="Horizontal_Distance_To_Hydrology"): 
 			print("Analyse Horizontal_Distance_To_Hydrology : On identifie une médiane égale environ à 200 et de nombreuses valeurs dépassant du boxplot.")
 		if(type_element=="Vertical_Distance_To_Hydrology"): 
@@ -104,7 +104,7 @@ class Analyse_de_donnees:
 		if(type_element=="Horizontal_Distance_To_Roadways"): 
 			print("Analyse Horizontal_Distance_To_Roadways : On identifie une médiane égale environ à 1200 et de nombreuses valeurs dépassant du boxplot.")
 		if(type_element=="Hillshade_9am"): 
-			print("Analyse Hillshade_9am : On identifie une médiane égale environ à 200 et quelques valeurs dépassant du boxplot.")
+			print("Analyse Hillshade_9am : On identifie une médiane égale environ à 200 et de nombreuses valeurs dépassant du boxplot.")
 		if(type_element=="Hillshade_Noon"): 
 			print("Analyse Hillshade_Noon : On identifie une médiane égale environ à 220 et de nombreuses valeurs dépassant du boxplot.")
 		if(type_element=="Hillshade_3pm"): 
@@ -116,7 +116,7 @@ class Analyse_de_donnees:
 			print("Analyse complète : ") 
 			print("Analyse Elevation : On identifie une médiane égale environ à 3000 et de nombreuses valeurs dépassant du boxplot.")
 			print("Analyse Aspect : On remarque que 50 pour cent des arbres ont une orientation inférieure à 125 degrés. De plus l'écart inter-quartile est important ce qui traduit beaucoup de données. Etant donné que les moustaches sont longues, on comprend également que les valeurs sont étendues.")
-			print("Analyse Slope : On voit que la médiane vaut environ 12 et que beaucoup de valeurs sont mal placées, il faudra donc épurer cette variable par la suite.")
+			print("Analyse Slope : On voit que la médiane vaut environ 12.")
 			print("Analyse Horizontal_Distance_To_Hydrology : On identifie une médiane égale environ à 200 et de nombreuses valeurs dépassant du boxplot.")
 			print("Analyse Vertical_Distance_To_Hydrology : On identifie une médiane égale environ à 20 et de nombreuses valeurs dépassant du boxplot.")
 			print("Analyse Horizontal_Distance_To_Roadways : On identifie une médiane égale environ à 1200 et de nombreuses valeurs dépassant du boxplot.")
