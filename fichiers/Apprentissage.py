@@ -53,7 +53,7 @@ class Apprentissage:
 		print("Qualité de la prédiction : :",np.mean(cross_val_score(clf,data_train,target_train, cv=5)))
 
 	def perceptron_multi_couches(data_train, data_test, target_train, target_test): 
-		classifier = MLPClassifier(hidden_layer_sizes=(100,100,100), max_iter=500, alpha=0.0001,solver='sgd', verbose=10,  random_state=21,tol=0.000000001) 
+		classifier = MLPClassifier() 
 		clf = classifier.fit(data_train, target_train)
 		target_pred = classifier.predict(data_test)
 		target_pred_train = classifier.predict(data_train)
@@ -91,7 +91,7 @@ class Apprentissage:
 		print("Qualité de la prédiction : :",np.mean(cross_val_score(clf,data_train,target_train, cv=5)))
 
 	def regression_logistique(data_train, data_test, target_train, target_test):
-		print("La régression logistique met beaucoup de temps à s'achever. c'est pourquoi elle se trouve à la fin du code.")
+		print("La régression logistique met plus de temps à s'achever. c'est pourquoi elle se trouve à la fin du code.")
 		classifier= LogisticRegression(multi_class='auto')
 		clf = classifier.fit(data_train,target_train)
 		target_pred = classifier.predict(data_test) #résultats obtenus
