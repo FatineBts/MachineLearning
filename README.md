@@ -6,10 +6,11 @@ Dans ce projet on s'intéresse à la classification de différents types de for�
 Langage de programmation utilisé : Python 3
 
 /!\ Pour lancer le fichier il vous faut télécharger certaines bibliothèques : 
-- Numpy
-- Scikit-learn
-- Panda 
-- Matplotlib 
+- Numpy (http://www.numpy.org)
+- Scikit-learn (https://scikit-learn.org/stable/)
+- Panda (https://pandas.pydata.org)
+- Matplotlib (https://matplotlib.org)
+- imblearn (https://pypi.org/project/imblearn/)
 
 
 Fichiers : 
