@@ -12,6 +12,7 @@ Langage de programmation utilisé : Python 3
 - Matplotlib (https://matplotlib.org)
 - imblearn (https://pypi.org/project/imblearn/)
 
+Rapport : Rapport_Bentires_Zounias.pdf
 
 Fichiers : 
 
