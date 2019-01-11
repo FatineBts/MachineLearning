@@ -61,7 +61,7 @@ class Apprentissage:
 		Pretraitement.matrice_de_confusion(target_test,target_pred)
 		print("Matrice de confusion train :")
 		Pretraitement.matrice_de_confusion(target_train,target_pred_train)
-		print("Remarque comparaison des matrices : en observant la matrice de confusion on voit que le perceptron multi-couche n'a pas un bon entrainement (problème de données ? hyperparamètres ?). Le mauvais pourcentage obtenu est donc cohérent.")
+		print("Remarque comparaison des matrices : en observant la matrice de confusion on voit que le perceptron multi-couche a un entrainement qui n'est pas tout à fait exact. Le pourcentage obtenu est donc cohérent.")
 		print("Qualité de la prédiction : :",np.mean(cross_val_score(clf,data_train,target_train, cv=5)))
 
 	def arbre_de_decision(data_train, data_test, target_train, target_test): 

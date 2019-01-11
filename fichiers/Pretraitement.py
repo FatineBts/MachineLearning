@@ -140,8 +140,5 @@ class Pretraitement:
 
 		_, data_test,__, target_test = train_test_split(X,y, random_state=0, train_size=0.8)
 		
-		#print("Number transactions X_train dataset: ", data_train.shape)
-		#print("Number transactions y_train dataset: ", target_train.shape)
-		#print("Number transactions X_test dataset: ", data_test.shape)
-		#print("Number transactions y_test dataset: ", target_test.shape)
+		print("Taille des données après SMOTE : ", data_train.shape)
 		return data_train, data_test, target_train, target_test #on revoit data au final 
