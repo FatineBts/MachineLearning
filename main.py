@@ -13,6 +13,7 @@ from fichiers.Lecture import *
 from fichiers.Analyse_de_donnees import *
 from fichiers.Pretraitement import *
 from fichiers.Apprentissage import *
+import os 
 
 ################################################################## Appel de fonctions ##################################################################################
 
