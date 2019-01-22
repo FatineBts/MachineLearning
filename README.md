@@ -11,7 +11,6 @@ Langage de programmation utilisé : Python 3
 - Panda (https://pandas.pydata.org)
 - Matplotlib (https://matplotlib.org)
 - imblearn (https://pypi.org/project/imblearn/)
-- sys (https://docs.python.org/fr/3/library/sys.html)
 
 Rapport : Rapport_Bentires_Zounias.pdf
 
