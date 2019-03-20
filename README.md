@@ -1,7 +1,10 @@
                                           Apprentissage statistique 
                                     Projet : Forest Cover Type Prediction 
+                                    
+EN: in this project, we are interested in the classification of different types of forests based on observations made in the field. This is a multi-class classification problem with 7 classes. Use of Scikit-learn, Panda and Numpy among others. 
 
-Dans ce projet on s'intéresse à la classification de différents types de forêts à partir d'observations faites sur le terrain. Il s'agit d'un problème de classification multi-classe avec 7 classes. 
+
+FR : Dans ce projet on s'intéresse à la classification de différents types de forêts à partir d'observations faites sur le terrain. Il s'agit d'un problème de classification multi-classe avec 7 classes. 
 
 Langage de programmation utilisé : Python 3
 
